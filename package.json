@@ -1,0 +1,61 @@
+{
+  "author": {
+    "name": "Nick Dodson",
+    "url": "thenickdodson@gmail.com"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "ethers-contracts": "*",
+    "ethjs-provider-http": "^0.1.6",
+    "ethjs-provider-signer": "^0.1.4",
+    "ethjs-rpc": "^0.1.8",
+    "js-sha3": "^0.7.0",
+    "solidity-to-abi": "^1.0.4"
+  },
+  "description": "Unofficial and experimental methods for EthJS",
+  "devDependencies": {
+    "babel-cli": "6.18.0",
+    "babel-core": "6.18.2",
+    "babel-loader": "6.2.8",
+    "babel-minify-webpack-plugin": "^0.3.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "6.18.0",
+    "cross-env": "1.0.7",
+    "json-loader": "0.5.4",
+    "rimraf": "2.3.4",
+    "tape-async": "^2.3.0",
+    "webpack": "2.1.0-beta.15"
+  },
+  "files": [
+    "dist",
+    "internals",
+    "lib",
+    "src"
+  ],
+  "keywords": [
+    "ethjs",
+    "extras"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "name": "ethjs-extras",
+  "repository": {
+    "type": "git",
+    "url": "github.com/silentcicero/ethjs-extras"
+  },
+  "scripts": {
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
+    "build:clean": "rimraf ./dist",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib --copy-files",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack --config ./internals/webpack/webpack.config.js ./lib/index.js --progress",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack --config ./internals/webpack/webpack.config.js ./lib/index.js --progress",
+    "coverage": "istanbul cover src/test.js -- -R spec",
+    "prebuild": "npm run build:clean && npm test",
+    "prepublish": "npm run build",
+    "start": "npm test",
+    "test": "node src/test.js"
+  },
+  "version": "0.0.4"
+}
