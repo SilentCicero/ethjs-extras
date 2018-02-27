@@ -92,6 +92,7 @@ sendTransaction({
   solidity: 'SimpleStore(address _master)',
   args: ['0x..SOME..ADDRESS..'],
   data: '0x..CONTRACT..DATA..',
+  construct: true, // will create constructor sig.
 })
 .then(txHash => onReceipt(txHash))
 .then(receipt => console.log(receipt.contractAddress))
