@@ -5832,6 +5832,9 @@ const EthObject = function (defaultOptions = {}) {
   return eth;
 };
 
+// just the raw method broken out in reverse ;)
+const raw = (method, params = [], options = {}) => EthObject(options).raw(method, ...params);
+
 // get the balance of an account
 const balanceOf = (address, args = {}) => new Promise((resolve, reject) => EthObject(args).raw('eth_getBalance', address, args.block || 'latest').then(hex => resolve(hexToBN(hex))).catch(error => reject(error)));
 
@@ -5967,6 +5970,9 @@ const EthContract = function (defaultOptions = {}, abi = [], decoder) {
   }), { abi, logDecoder: decoder = logDecoder(abi), getLogs, onEvent: onEventSetup(abi) }));
 };
 
+// send transaction method broken out
+const sendTransaction = (opts = {}) => ethCall(assign({ method: 'sendTransaction' }, opts));
+
 // build eth object
 const Eth = function (defaultOptions = {}) {
   const self = EthObject(defaultOptions);
@@ -5975,7 +5981,7 @@ const Eth = function (defaultOptions = {}) {
   self.onBlock = (addr, opts = {}) => onBlock(addr, assign(defaultOptions, opts));
   self.onReceipt = (addr, opts = {}) => onReceipt(addr, assign(defaultOptions, opts));
   self.call = (opts = {}) => ethCall(assign(defaultOptions, opts));
-  self.sendTransaction = (opts = {}) => ethCall(assign({ method: 'sendTransaction' }, defaultOptions, opts));
+  self.sendTransaction = (opts = {}) => sendTransaction(assign(defaultOptions, opts));
   self.contract = (opts = {}) => EthContract(assign(defaultOptions, opts));
   return self;
 };
@@ -5989,6 +5995,9 @@ module.exports = {
   HttpProvider,
   keccak256,
   Eth,
+  raw,
+  call: ethCall,
+  sendTransaction,
   balanceOf,
   solToABI,
   encodeParams,

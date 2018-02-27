@@ -21,7 +21,7 @@ const {
   onAccount,
   onReceipt,
   onBlock,
-  ethCall,
+  call,
 } = require('ethjs-extras'); // or import..
 
 // make a raw method call to a rpc network
@@ -41,12 +41,12 @@ const simpleStore = new EthContract({
 });
 
 // contract methods, promise only
-simpleStore.get().then(console.log).catch(console.log);
-simpleStore.master.call().then(console.log).catch(console.log);
+simpleStore.get().then(console.log).catch(console.log); // using shorthand notation
+simpleStore.master.call().then(console.log).catch(console.log); // using .call() notation
 simpleStore.onEvent(console.log); // polls for events, receives, decodes and fires callback
 simpleStore.getLogs({ fromBlock: 0 }).then(console.log).catch(console.log);
 
-// sending a transaction?
+// send transaction notation .sendTransaction
 // simpleStore.set.sendTransaction({ gas: 300000 }).then(console.log).catch(console.log);
 
 // this fires when receipt is available for transaction hash
@@ -56,7 +56,7 @@ onReceipt('0x5005c4dddca407a46b4193379102228cbafc5fb48a269e973d85fd4c30704653', 
 .then(console.log).catch(console.log);
 
 // just call a single contract method
-ethCall({
+call({
   network: 'rinkeby',
   address: '0x01a528451419d562a6752318a6fb71898fa5d840',
   solidity: 'get():(uint256)',
@@ -178,6 +178,14 @@ Encoding Hex:
 `stripHexPrefix` : string hex prefix from string data (if any)
 `hexNum` : always turn value (string / number / BN object) into hex string number
 
+## Call Method Naming
+
+The `call` and `ethCall` method are the same. Sometimes, function names like `call` are reserved depending on your linter. So we provide both for your convenience.
+
+## Send Transaction
+
+The `sendTransaction` method is simply the `call` method with the `method` defined as `sendTransaction`.
+
 ## Handling Ethereum Units
 
 See `ethjs-unit` for handling unit conversion (eth => wei, USD => eth etc..)
@@ -203,6 +211,7 @@ solToABI,
 encodeParams,
 decodeParams,
 ethCall,
+call,
 EthContract,
 encodeSignature,
 encodeMethod,
@@ -213,6 +222,8 @@ hexToBN,
 hexPrefix,
 stripHexPrefix,
 BN,
+raw,
+sendTransaction,
 empty,
 solToABI,
 numToBN,
