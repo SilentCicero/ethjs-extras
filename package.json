@@ -5,6 +5,7 @@
   },
   "bundleDependencies": false,
   "dependencies": {
+    "bn.js": "^4.11.8",
     "ethers-contracts": "*",
     "ethjs-provider-http": "^0.1.6",
     "ethjs-provider-signer": "^0.1.4",
